@@ -62,6 +62,7 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/highlighterset.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/predefinedfilters.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/predefinedfilterscombobox.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/searchhistorycombobox.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/predefinedfiltersdialog.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/infoline.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/pathline.cpp
