@@ -63,6 +63,7 @@
 #include "logmainview.h"
 #include "overview.h"
 #include "predefinedfilterscombobox.h"
+#include "searchhistorycombobox.h"
 #include "signalmux.h"
 #include "viewinterface.h"
 
@@ -378,7 +379,7 @@ class CrawlerWidget : public QSplitter,
 
     PredefinedFiltersComboBox* predefinedFilters_;
 
-    QComboBox* searchLineEdit_;
+    SearchHistoryComboBox* searchLineEdit_;
     QMenu* searchLineContextMenu_;
     QCompleter* searchLineCompleter_;
 

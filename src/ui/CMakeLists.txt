@@ -11,6 +11,7 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/include/highlightedmatch.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/predefinedfilters.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/predefinedfilterscombobox.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/searchhistorycombobox.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/predefinedfiltersdialog.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/infoline.h
   ${CMAKE_CURRENT_SOURCE_DIR}/include/pathline.h

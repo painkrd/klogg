@@ -1076,7 +1076,7 @@ void CrawlerWidget::setup()
 
     // Construct the Search line
     searchLineCompleter_ = new QCompleter( savedSearches_->recentSearches(), this );
-    searchLineEdit_ = new QComboBox;
+    searchLineEdit_ = new SearchHistoryComboBox( this );
     searchLineEdit_->setEditable( true );
     searchLineEdit_->setCompleter( searchLineCompleter_ );
     searchLineEdit_->addItems( savedSearches_->recentSearches() );
