@@ -73,6 +73,7 @@ jobs:
           key: windows-x64-${{ env.KLOGG_QT_VERSION }}-QtCache
 
       - name: Install Qt
+        id: install-qt
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.KLOGG_QT_VERSION }}
@@ -118,10 +119,21 @@ jobs:
         run: |
           cmake --build %KLOGG_BUILD_ROOT% --target ci_build --config RelWithDebInfo
 
+      - name: Install OpenSSL
+        run: choco install openssl --version 1.1.1 --no-progress -y
+        shell: cmd
+
       - name: Prepare Release
         shell: cmd
         run: |
+          set KLOGG_WORKSPACE=%GITHUB_WORKSPACE%
+          set KLOGG_QT_DIR=%KLOGG_QT_INSTALL_PATH%
+          set SSL_DIR=C:\Program Files\OpenSSL
+          set SSL_ARCH=%KLOGG_ARCH%
+          set platform=%KLOGG_ARCH%
           packaging\windows\prepare_release.cmd
+        env:
+          KLOGG_QT_INSTALL_PATH: ${{ steps.install-qt.outputs.qt-install-path }}
 
       - name: Create NSIS Installer
         uses: joncloud/makensis-action@v3.3
@@ -186,6 +198,7 @@ jobs:
           key: windows-x86-${{ env.KLOGG_QT_VERSION }}-QtCache
 
       - name: Install Qt
+        id: install-qt
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ env.KLOGG_QT_VERSION }}
@@ -231,10 +244,26 @@ jobs:
         run: |
           cmake --build %KLOGG_BUILD_ROOT% --target ci_build --config RelWithDebInfo
 
+      - name: Install OpenSSL
+        run: choco install openssl --version 1.1.1 --no-progress -y
+        shell: cmd
+
       - name: Prepare Release
         shell: cmd
         run: |
+          set KLOGG_WORKSPACE=%GITHUB_WORKSPACE%
+          set KLOGG_QT_DIR=%KLOGG_QT_INSTALL_PATH%
+          set SSL_DIR=C:\Program Files\OpenSSL
+          set SSL_ARCH=%KLOGG_ARCH%
+          set platform=%KLOGG_ARCH%
           packaging\windows\prepare_release.cmd
+        env:
+          KLOGG_QT_INSTALL_PATH: ${{ steps.install-qt.outputs.qt-install-path }}
+
+      - name: Create NSIS Installer
+          packaging\windows\prepare_release.cmd
+        env:
+          KLOGG_QT_INSTALL_PATH: ${{ steps.install-qt.outputs.qt-install-path }}
 
       - name: Create NSIS Installer
         uses: joncloud/makensis-action@v3.3
