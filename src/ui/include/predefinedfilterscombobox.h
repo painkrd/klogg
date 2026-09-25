@@ -70,6 +70,7 @@ class PredefinedFiltersComboBox final : public QComboBox {
     void setTitle( const QString& title );
     void insertFilters( const PredefinedFiltersCollection::Collection& filters );
     void collectFilters();
+    void showPopupOnCorrectScreen();
 
   private:
     PredefinedFiltersCollection filtersCollection_;
