@@ -111,7 +111,7 @@ jobs:
         run: |
           mkdir %KLOGG_BUILD_ROOT%
           cd %KLOGG_BUILD_ROOT%
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCPM_SOURCE_CACHE=%GITHUB_WORKSPACE%\cpm_cache -DKLOGG_OVERRIDE_MALLOC=OFF %GITHUB_WORKSPACE%
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCPM_SOURCE_CACHE=%GITHUB_WORKSPACE%\cpm_cache -DKLOGG_OVERRIDE_MALLOC=OFF -DBOOST_ROOT=%GITHUB_WORKSPACE%\3rdparty\boost %GITHUB_WORKSPACE%
 
       - name: Build
         shell: cmd
@@ -224,7 +224,7 @@ jobs:
         run: |
           mkdir %KLOGG_BUILD_ROOT%
           cd %KLOGG_BUILD_ROOT%
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCPM_SOURCE_CACHE=%GITHUB_WORKSPACE%\cpm_cache -DKLOGG_OVERRIDE_MALLOC=OFF %GITHUB_WORKSPACE%
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCPM_SOURCE_CACHE=%GITHUB_WORKSPACE%\cpm_cache -DKLOGG_OVERRIDE_MALLOC=OFF -DBOOST_ROOT=%GITHUB_WORKSPACE%\3rdparty\boost %GITHUB_WORKSPACE%
 
       - name: Build
         shell: cmd
