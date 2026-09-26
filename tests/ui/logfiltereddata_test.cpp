@@ -70,6 +70,9 @@ void runSearch( LogFilteredData* filtered_data, const QString& regexp,
 
     // Wait for search to fully finish (worker cleanup)
     REQUIRE( searchFinishedSpy.wait( 10000 ) );
+
+    // Ensure worker is completely idle before destroying objects
+    filtered_data->waitForWorkerIdle();
 }
 
 } // namespace

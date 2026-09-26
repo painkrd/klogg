@@ -72,6 +72,10 @@ class LogFilteredData : public AbstractLogData {
   public:
     // Constructor used by LogData
     explicit LogFilteredData( const LogData* logData );
+    ~LogFilteredData() override;
+
+    // Wait for the worker thread to finish any ongoing operations
+    void waitForWorkerIdle();
 
     // Starts the async search, sending newDataAvailable() when new data found.
     // If a search is already in progress this function will block until

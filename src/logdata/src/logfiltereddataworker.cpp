@@ -248,6 +248,12 @@ void LogFilteredDataWorker::interrupt()
     interruptRequested_.set();
 }
 
+void LogFilteredDataWorker::waitForDone()
+{
+    ScopedLock locker( operationsMutex_ );
+    operationsPool_.waitForDone();
+}
+
 // This will do an atomic copy of the object
 SearchResults LogFilteredDataWorker::getSearchResults() const
 {
