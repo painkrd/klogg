@@ -79,6 +79,8 @@ LogFilteredData::LogFilteredData( const LogData* logData )
     // Forward the update signal
     connect( &workerThread_, &LogFilteredDataWorker::searchProgressed, this,
              &LogFilteredData::handleSearchProgressed );
+    connect( &workerThread_, &LogFilteredDataWorker::searchFinished, this,
+             &LogFilteredData::searchFinished );
 
     searchProgressThrottler_.setTimeout( 100 );
     connect( this, &LogFilteredData::searchProgressedThrottled, &searchProgressThrottler_,

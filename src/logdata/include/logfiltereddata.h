@@ -141,6 +141,8 @@ class LogFilteredData : public AbstractLogData {
     // Sent when the search has progressed, give the number of matches (so far)
     // and the percentage of completion
     void searchProgressed( LinesCount nbMatches, int progress, LineNumber initialLine );
+    // Sent when the search has fully finished (including worker cleanup)
+    void searchFinished();
     void searchProgressedThrottled();
 
   private Q_SLOTS:

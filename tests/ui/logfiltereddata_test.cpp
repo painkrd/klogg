@@ -55,7 +55,7 @@ bool generateDataFiles( QTemporaryFile& file )
 }
 
 void runSearch( LogFilteredData* filtered_data, const QString& regexp,
-                SafeQSignalSpy& searchProgressSpy )
+                SafeQSignalSpy& searchProgressSpy, SafeQSignalSpy& searchFinishedSpy )
 {
 
     QTimer::singleShot(
@@ -67,6 +67,9 @@ void runSearch( LogFilteredData* filtered_data, const QString& regexp,
         QList<QVariant> progressArgs = searchProgressSpy.last();
         progress = progressArgs.at( 1 ).toInt();
     } while ( progress < 100 );
+
+    // Wait for search to fully finish (worker cleanup)
+    REQUIRE( searchFinishedSpy.wait( 10000 ) );
 }
 
 } // namespace
@@ -220,24 +223,27 @@ SCENARIO( "search for regex", "[logdata]" )
     {
         auto filtered_data = logDataLoader.log_data.getNewFilteredData();
 
-        WHEN( "Searched for regex" )
-        {
-            const auto threadPoolSize = GENERATE( 0, 1, 2 );
+WHEN( "Searched for regex" )
+            {
+                const auto threadPoolSize = GENERATE( 0, 1, 2 );
 
-            auto& config = Configuration::getSynced();
+                auto& config = Configuration::getSynced();
 
-            config.setSearchThreadPoolSize( threadPoolSize );
-            config.setUseParallelSearch( threadPoolSize > 0 );
+                config.setSearchThreadPoolSize( threadPoolSize );
+                config.setUseParallelSearch( threadPoolSize > 0 );
 
-            auto filtered_lines = filtered_data->getNbLine();
-            REQUIRE( filtered_lines.get() == 0 );
+                auto filtered_lines = filtered_data->getNbLine();
+                REQUIRE( filtered_lines.get() == 0 );
 
-            SafeQSignalSpy searchProgressSpy{ filtered_data.get(),
-                                              &LogFilteredData::searchProgressed };
+                SafeQSignalSpy searchProgressSpy{ filtered_data.get(),
+                                                  &LogFilteredData::searchProgressed };
+                SafeQSignalSpy searchFinishedSpy{ filtered_data.get(),
+                                                  &LogFilteredData::searchFinished };
 
-            runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy );
+                runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy,
+                           searchFinishedSpy );
 
-            THEN( "Matched lines are in data" )
+                THEN( "Matched lines are in data" )
             {
                 QList<QVariant> progressArgs = searchProgressSpy.last();
                 REQUIRE( qvariant_cast<LinesCount>( progressArgs.at( 0 ) ) == 50_lcount );
@@ -273,8 +279,11 @@ SCENARIO( "marks and matches in filtered log data", "[logdata]" )
 
             SafeQSignalSpy searchProgressSpy{ filtered_data.get(),
                                               &LogFilteredData::searchProgressed };
+            SafeQSignalSpy searchFinishedSpy{ filtered_data.get(),
+                                              &LogFilteredData::searchFinished };
 
-            runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy );
+            runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy,
+                       searchFinishedSpy );
 
             AND_WHEN( "Add marks at matched line" )
             {
