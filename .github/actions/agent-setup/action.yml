@@ -4,7 +4,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@v4.0.0
+      uses: seanmiddleditch/gha-setup-ninja@v4
 
     - name: Cache Qt
       id: cache-qt
