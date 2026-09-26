@@ -80,7 +80,7 @@ LogFilteredData::LogFilteredData( const LogData* logData )
     connect( &workerThread_, &LogFilteredDataWorker::searchProgressed, this,
              &LogFilteredData::handleSearchProgressed );
     connect( &workerThread_, &LogFilteredDataWorker::searchFinished, this,
-             &LogFilteredData::searchFinished );
+             &LogFilteredData::searchFinished, Qt::DirectConnection );
 
     searchProgressThrottler_.setTimeout( 100 );
     connect( this, &LogFilteredData::searchProgressedThrottled, &searchProgressThrottler_,
