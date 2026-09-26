@@ -12,10 +12,6 @@ xcopy %KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%\output\klogg.pdb %KLOGG_WORKSPACE%\re
 xcopy %KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%\output\klogg_crashpad_handler.exe %KLOGG_WORKSPACE%\release\ /y
 xcopy %KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%\output\klogg_minidump_dump.exe %KLOGG_WORKSPACE%\release\ /y
 
-rem Copy TBB DLLs - find them dynamically in build tree
-for /r "%KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%" %%f in (tbb12.dll) do xcopy "%%f" %KLOGG_WORKSPACE%\release\ /y
-for /r "%KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%" %%f in (tbb12.pdb) do xcopy "%%f" %KLOGG_WORKSPACE%\release\ /y
-
 xcopy %KLOGG_WORKSPACE%\%KLOGG_BUILD_ROOT%\generated\documentation.html %KLOGG_WORKSPACE%\release\ /y
 xcopy %KLOGG_WORKSPACE%\COPYING %KLOGG_WORKSPACE%\release\ /y
 xcopy %KLOGG_WORKSPACE%\NOTICE %KLOGG_WORKSPACE%\release\ /y
