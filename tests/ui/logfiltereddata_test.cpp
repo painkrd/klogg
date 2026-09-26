@@ -63,7 +63,7 @@ void runSearch( LogFilteredData* filtered_data, const QString& regexp,
 
     int progress = 0;
     do {
-        REQUIRE( searchProgressSpy.wait() );
+        REQUIRE( searchProgressSpy.safeWait( 30000 ) );
         QList<QVariant> progressArgs = searchProgressSpy.last();
         progress = progressArgs.at( 1 ).toInt();
     } while ( progress < 100 );
