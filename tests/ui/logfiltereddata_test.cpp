@@ -55,7 +55,7 @@ bool generateDataFiles( QTemporaryFile& file )
 }
 
 void runSearch( LogFilteredData* filtered_data, const QString& regexp,
-                SafeQSignalSpy& searchProgressSpy, SafeQSignalSpy& searchFinishedSpy )
+                SafeQSignalSpy& searchProgressSpy )
 {
 
     QTimer::singleShot(
@@ -68,10 +68,8 @@ void runSearch( LogFilteredData* filtered_data, const QString& regexp,
         progress = progressArgs.at( 1 ).toInt();
     } while ( progress < 100 );
 
-    // Wait for search to fully finish (worker cleanup)
-    REQUIRE( searchFinishedSpy.wait( 10000 ) );
-
     // Ensure worker is completely idle before destroying objects
+    // (waitForWorkerIdle uses proper synchronization, not QSignalSpy which needs event loop)
     filtered_data->waitForWorkerIdle();
 }
 
@@ -240,11 +238,8 @@ WHEN( "Searched for regex" )
 
                 SafeQSignalSpy searchProgressSpy{ filtered_data.get(),
                                                   &LogFilteredData::searchProgressed };
-                SafeQSignalSpy searchFinishedSpy{ filtered_data.get(),
-                                                  &LogFilteredData::searchFinished };
 
-                runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy,
-                           searchFinishedSpy );
+                runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy );
 
                 THEN( "Matched lines are in data" )
             {
@@ -282,11 +277,8 @@ SCENARIO( "marks and matches in filtered log data", "[logdata]" )
 
             SafeQSignalSpy searchProgressSpy{ filtered_data.get(),
                                               &LogFilteredData::searchProgressed };
-            SafeQSignalSpy searchFinishedSpy{ filtered_data.get(),
-                                              &LogFilteredData::searchFinished };
 
-            runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy,
-                       searchFinishedSpy );
+            runSearch( filtered_data.get(), "this is line [0-9]{5}9", searchProgressSpy );
 
             AND_WHEN( "Add marks at matched line" )
             {
