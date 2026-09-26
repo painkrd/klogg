@@ -30,7 +30,15 @@ xcopy %SSL_DIR%\libcrypto-1_1%SSL_ARCH%.dll %KLOGG_WORKSPACE%\release\ /y
 xcopy %SSL_DIR%\libssl-1_1%SSL_ARCH%.dll %KLOGG_WORKSPACE%\release\ /y
 
 echo "Copying Qt..."
-set "QTDIR=%KLOGG_QT_DIR:/=\%"
+if "%KLOGG_QT_DIR%"=="" (
+    if "%KLOGG_QT%"=="Qt6" (
+        set "QTDIR=C:\Qt\6.7.3\msvc2019_64"
+    ) else (
+        set "QTDIR=C:\Qt\5.15.2\msvc2019"
+    )
+) else (
+    set "QTDIR=%KLOGG_QT_DIR:/=\%"
+)
 echo %QTDIR%
 xcopy %QTDIR%\bin\%KLOGG_QT%Core.dll %KLOGG_WORKSPACE%\release\ /y
 xcopy %QTDIR%\bin\%KLOGG_QT%Gui.dll %KLOGG_WORKSPACE%\release\ /y
